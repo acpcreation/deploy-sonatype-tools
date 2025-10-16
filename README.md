@@ -21,3 +21,14 @@ Steps:
 
 Resources
 - App containerization and deploy to AWS: https://www.youtube.com/watch?v=1_AlV-FFxM8 
+
+
+
+# Checkov
+Using in WF:
+1. Toggle off "Run command in same env"
+2. Select and name the WF template
+3. Command override: -d "/mnt/sg_workspace/user/IaC-Excercises" --download-external-modules false --soft-fail
+
+Ignore issue: 
+#checkov:skip=<check_id>:<suppression_comment>

@@ -11,6 +11,8 @@
 CONTAINER_NAME=$1
 ECR_REPO_URI=$2
 
+echo "$CONTAINER_NAME"
+
 
 CONTAINER_TAG="latest"
 echo "Pull Docker Image..."

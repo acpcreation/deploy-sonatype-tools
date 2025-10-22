@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
+set -o pipefail
 # chmod +x configure-container.sh 
 # install docker
 # install awscli
@@ -8,10 +10,30 @@
 
 # CONTAINER_NAME="sonatype/nexus3"
 # CONTAINER_NAME="sonatype/nexus-iq-server"
-CONTAINER_NAME=$1
-ECR_REPO_URI=$2
+# CONTAINER_NAME=$1
+# ECR_REPO_URI=$2
 
-echo "$CONTAINER_NAME"
+# GET SG INPUT VARIABLES
+parse_variables() { 
+  [[ -f .env ]] && . .env
+  mountedWorkingDir="${LOCAL_IAC_SOURCE_CODE_DIR}" # TODO: should we provide ways to running ansible without anisble playbook, without VCS Config? Need use-cases!
+  mountedArtifactsDir="${LOCAL_ARTIFACTS_DIR}"
+  workflowStepInputParams=$(echo "${BASE64_WORKFLOW_STEP_INPUT_VARIABLES}" | base64 -d -i)
+  ansibleSSHPrivateKey="${ANSIBLE_SSH_PRIVATE_KEY}"
+  workflowIACInputVariables=$(echo "${BASE64_IAC_INPUT_VARIABLES}" | base64 -d -i)
+}
+parse_variables
+
+# playbookPath="$(echo "${workflowStepInputParams}" | jq -r '.playbookPath')"
+ 
+
+echo "Input Params: $workflowIACInputVariables"
+echo "========================================================="
+
+CONTAINER_NAME=$CONTAINER_NAME_INPUT
+ECR_REPO_URI=$ECR_REPO_URI_INPUT
+
+echo "CONTAINER NAME: $CONTAINER_NAME"
 
 
 CONTAINER_TAG="latest"

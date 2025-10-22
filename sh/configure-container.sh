@@ -30,10 +30,12 @@ parse_variables
 echo "Input Params: $workflowIACInputVariables"
 echo "========================================================="
 
-CONTAINER_NAME=$CONTAINER_NAME_INPUT
-ECR_REPO_URI=$ECR_REPO_URI_INPUT
+CONTAINER_NAME="$(echo "${workflowIACInputVariables}" | jq -r '.CONTAINER_NAME_INPUT')"
+ECR_REPO_URI="$(echo "${workflowIACInputVariables}" | jq -r '.ECR_REPO_URI_INPUT')"  
 
 echo "CONTAINER NAME: $CONTAINER_NAME"
+echo "ECR REPO: $ECR_REPO_URI"
+echo "========================================================="
 
 
 CONTAINER_TAG="latest"

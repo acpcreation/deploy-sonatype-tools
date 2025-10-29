@@ -8,14 +8,14 @@ terraform {
             version = "~> 6.0"
         }
     }
-    backend "s3" {
-        bucket = "sonatype-nexus-state-sg-26cdd7f4"  
-        key    = "terraform.tfstate"
-        region = "us-east-1"
-        # dynamodb_table = "terraform-locks"
-    }
+    # backend "s3" {
+    #     bucket = "sonatype-nexus-state-sg-26cdd7f4"  
+    #     key    = "terraform.tfstate"
+    #     region = "us-east-1"
+    #     dynamodb_table = "terraform-locks"
+    # }
 
-    # backend "local" {}
+    backend "local" {}
 }
 
 # ECR Configuration
@@ -31,7 +31,7 @@ output "ecr_uri" {
 
 variable "ecr_repo_name_input" {
   description = "AWS Elastic Container Registry name"
-  default     = "repo-1"
+  default     = "Repository-Name"
   type        = string
 }
 
@@ -46,14 +46,14 @@ resource "random_id" "suffix" {
 
 
 # --- Create the S3 bucket ---
-resource "aws_s3_bucket" "terraform_state" {
-  bucket = "sonatype-nexus-state-sg-${random_id.suffix.hex}"
+# resource "aws_s3_bucket" "terraform_state" {
+#   bucket = "sonatype-nexus-state-sg-${random_id.suffix.hex}"
 
-  tags = {
-    Name        = "Terraform State Bucket"
-    Environment = "dev"
-  }
-}
+#   tags = {
+#     Name        = "Terraform State Bucket"
+#     Environment = "dev"
+#   }
+# }
 
 
 # Optional: block public access
@@ -66,14 +66,14 @@ resource "aws_s3_bucket" "terraform_state" {
 #   restrict_public_buckets = true
 # }
 
-# Optional: enable versioning (helps recover old state)
-resource "aws_s3_bucket_versioning" "versioning" {
-  bucket = aws_s3_bucket.terraform_state.id
+# # Optional: enable versioning (helps recover old state)
+# resource "aws_s3_bucket_versioning" "versioning" {
+#   bucket = aws_s3_bucket.terraform_state.id
 
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
+#   versioning_configuration {
+#     status = "Enabled"
+#   }
+# }
 
 # # Optional: create DynamoDB table for state locking
 # resource "aws_dynamodb_table" "terraform_locks" {
@@ -87,10 +87,10 @@ resource "aws_s3_bucket_versioning" "versioning" {
 #   }
 # }
 
-output "terraform_state_bucket_name" {
-  description = "The name of the S3 bucket used for Terraform remote state"
-  value       = aws_s3_bucket.terraform_state.bucket
-}
+# output "terraform_state_bucket_name" {
+#   description = "The name of the S3 bucket used for Terraform remote state"
+#   value       = aws_s3_bucket.terraform_state.bucket
+# }
 
 
 

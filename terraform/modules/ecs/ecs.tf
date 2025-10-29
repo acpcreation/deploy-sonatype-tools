@@ -26,6 +26,8 @@ resource "aws_ecs_task_definition" "application_task" {
     {
       name      = var.application_task_name
       image     = var.ecr_repo_url
+      # image     = "${data.aws_ecr_image.app.repository_url}@${data.aws_ecr_image.app.image_digest}"
+
       essential = true
       portMappings = [
         {

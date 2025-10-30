@@ -15,7 +15,7 @@ terraform {
     #     dynamodb_table = "terraform-locks"
     # }
 
-    backend "local" {}
+    # backend "local" {}
 }
 
 # ECR Configuration
